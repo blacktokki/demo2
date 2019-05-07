@@ -141,5 +141,56 @@
 			<script src="assets/js/util.js"></script>
 			<script src="assets/js/main.js"></script>
 
+
+	<!-- 페이지 넘기기 -->
+
+	<!-- 		<%
+
+					if (pageNumber != 1) {
+
+				%>
+
+				<a href="bbs.jsp?pageNumber=<%=pageNumber - 1%>"
+
+					class="btn btn-success btn-arrow-left">이전</a>
+
+				<%
+
+					}
+
+					if (bbsDAO.nextPage(pageNumber)) {
+
+				%>
+
+				<a href="bbs.jsp?pageNumber=<%=pageNumber + 1%>"
+
+					class="btn btn-success btn-arrow-left">다음</a>
+
+				<%
+
+					}
+
+				%>
+		-->
+		
+		<div class="container">
+
+	<h2>페이지</h2>
+
+	<nav>
+	  <ul class="pagination">
+	    <li><a href="#"><span aria-hidden="true">«</span><span class="sr-only">Previous</span></a></li>
+	    <li><a href="#">1</a></li>
+	    <li><a href="#">2</a></li>
+	    <li><a href="#">3</a></li>
+	    <li><a href="#">4</a></li>
+	    <li><a href="#">5</a></li>
+	    <li><a href="#"><span aria-hidden="true">»</span><span class="sr-only">Next</span></a></li>
+	  </ul>
+	</nav>
+
+</div>
+
+
 	</body>
 </html>
