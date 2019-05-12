@@ -35,27 +35,36 @@ public class CtrlTest {
     }
     /*
     @Test
-    public void test1() throws Exception {
+    public void test0() throws Exception {
     	for(int i=0;i<1;i++) {
-	        mockMvc.perform(get("/company/auto").param("keyword", "삼성전자"))
+	        mockMvc.perform(get("/search/auto").param("keyword", "삼성전자"))
 	               .andDo(print())
 	               .andExpect(status().isOk());
-	        mockMvc.perform(get("/company/auto?keyword=삼성전자"))
+	        mockMvc.perform(get("/search/auto?keyword=삼성전자"))
             .andDo(print())
             .andExpect(status().isOk());
     	}
     }*/
+    
+    @Test
+    public void test1() throws Exception {
+    	mockMvc.perform(get("/search/auto?keyword=삼성전자"))
+    	.andDo(print())
+    	.andExpect(status().isOk());
+    }
+    
     @Test
     public void test2() throws Exception {
-    	String keyword=URLEncoder.encode("엘지","UTF-8");
+    	mockMvc.perform(get("/search/auto/category?keyword=java"))
+    	.andDo(print())
+    	.andExpect(status().isOk());
+    }
+    
+    @Test
+    public void test4() throws Exception {
+    	String keyword=URLEncoder.encode("삼성전자","UTF-8");
     	mockMvc.perform(get("/company/"+keyword))
         .andDo(print())
         .andExpect(status().isOk());
-    }
-    @Test
-    public void test3() throws Exception {
-    	mockMvc.perform(get("/search/auto?keyword=java"))
-    	.andDo(print())
-    	.andExpect(status().isOk());
     }
 }

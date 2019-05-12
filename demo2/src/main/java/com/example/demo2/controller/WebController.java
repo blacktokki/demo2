@@ -20,18 +20,25 @@ public class WebController {
 	JobService jobService;
 	
 	@ResponseBody
-	@GetMapping("/company/auto")
+	@GetMapping("/search/auto")
     public JSONObject testAuto(Model model,@RequestParam String keyword){
 		model.addAttribute("keyword",keyword);
     	return ((AutoCompleteService)companyService).search(model);
     }
 	
 	@ResponseBody
-	@GetMapping("/search/auto")
+	@GetMapping("/search/auto/category")
     public JSONObject auto(Model model,@RequestParam String keyword){
 		model.addAttribute("keyword",keyword);
     	return ((AutoCompleteService)jobService).search(model);
     }
+	
+	@GetMapping("job/result")
+	public String job(Model model,HttpServletRequest request){
+		model.addAttribute("request",request);
+		jobService.jobInfo(model);
+		return "job";
+	}
 	
 	@GetMapping("/company/{keyword}")
 	public String company(Model model,@PathVariable String keyword){
@@ -40,14 +47,19 @@ public class WebController {
 		
 		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
 		model.addAttribute("nameList", nameList);
-		return "company";
+		return "content";
 	}
-	@GetMapping("/search")
-	public String job(Model model,HttpServletRequest request){
-		model.addAttribute("request",request);
-		jobService.jobInfo(model);
-		return "job";
+	
+	@GetMapping("/company/{keyword}/info")
+	public String companyInfo(Model model,@PathVariable String keyword){
+		model.addAttribute("keyword",keyword);
+		//companyService.companyInfo(model);
+		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
+		model.addAttribute("nameList", nameList);
+		return "board";
 	}
+	
+	
 	
 	@GetMapping("/login")
 	public String login() throws Exception{

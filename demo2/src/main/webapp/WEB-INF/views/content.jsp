@@ -14,15 +14,12 @@
 		<!-- Header -->
 		<c:import url="/html/header.html" charEncoding="UTF-8"/>
 		<!-- Main -->
-
 		<main id="main">
-			<c:import url="/html/category.html" charEncoding="UTF-8"/>
-			<!--
-			<c:forEach items="${____}" var="name" varStatus="status">
-				<c:set var="name" value="${____}" scope="request"/>
-				<c:import url="includes/_____.jsp" charEncoding="UTF-8"/>
-			</c:forEach>
-			-->
+			<!-- Header -->
+			<c:set var="____" value="${____}" scope="request"/>
+			<c:import url="includes/content-header.jsp" charEncoding="UTF-8"/>
+			<c:import url="includes/content-article.jsp" charEncoding="UTF-8"/>
+			<c:import url="/html/content-footer.html" charEncoding="UTF-8"/>
 		</main>
 		<!-- Footer -->
 		<c:import url="/html/footer.html" charEncoding="UTF-8"/>

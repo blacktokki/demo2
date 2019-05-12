@@ -33,8 +33,9 @@ public class SaramInCrawler implements Crawler{
 		String keyword=(String)request.getAttribute("keyword");//검색어
 		String category=(String)request.getAttribute("category");//직무
 		String career=(String)request.getAttribute("career");//경력
-		String url="http://api.saramin.co.kr/job-search?keywords="+keyword+"&job_category="+category;
-		
+		String url="http://api.saramin.co.kr/job-search?keywords="+keyword+"&job_category="+category;		
+		//여기완성
+
 		return null;
 	};
 }
