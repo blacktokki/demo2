@@ -37,6 +37,8 @@ public class WebController {
 	public String job(Model model,HttpServletRequest request){
 		model.addAttribute("request",request);
 		jobService.jobInfo(model);
+		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
+		model.addAttribute("nameList", nameList);
 		return "job";
 	}
 	
@@ -44,9 +46,6 @@ public class WebController {
 	public String company(Model model,@PathVariable String keyword){
 		model.addAttribute("keyword",keyword);
 		companyService.companyInfo(model);
-		
-		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
-		model.addAttribute("nameList", nameList);
 		return "content";
 	}
 	
@@ -54,12 +53,8 @@ public class WebController {
 	public String companyInfo(Model model,@PathVariable String keyword){
 		model.addAttribute("keyword",keyword);
 		//companyService.companyInfo(model);
-		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
-		model.addAttribute("nameList", nameList);
 		return "board";
 	}
-	
-	
 	
 	@GetMapping("/login")
 	public String login() throws Exception{

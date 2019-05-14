@@ -2,6 +2,8 @@ package com.example.demo2.service;
 
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -80,12 +82,24 @@ public class JobServiceImpl implements JobService,AutoCompleteService{
 		return json;
 	}
 	
+	void jobInfoMapper(HttpServletRequest request,Map<String,String> map,String keyword,String defval){
+		String val=(String)request.getParameter(keyword);
+		map.put(keyword,(val!=null?val:defval));
+	}
+	
 	@Override
 	public void jobInfo(Model model) {
 		Map<String,Object> map= model.asMap();
+		HttpServletRequest request=((HttpServletRequest) map.get("request"));
+		Map<String,String> mapStr=new HashMap<>();
+		jobInfoMapper(request,mapStr,"keywords","java");//검색어
+		jobInfoMapper(request,mapStr,"category","4");//직무
+		jobInfoMapper(request,mapStr,"start","0");//시작번호
+		jobInfoMapper(request,mapStr,"count","10");//개수
+		jobInfoMapper(request,mapStr,"career","신입");//경력
 		Map<?,?> result;
 		try {
-			result=saramInCrawler.getPage(map);
+			result=saramInCrawler.getPage(mapStr);
 			System.out.println(result.toString());
 			model.addAttribute("result",result);
 			

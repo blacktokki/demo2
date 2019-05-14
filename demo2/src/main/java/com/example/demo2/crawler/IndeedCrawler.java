@@ -46,7 +46,6 @@ public class IndeedCrawler implements Crawler{
 		div3=div.select(".cmp-ReviewCategory-rating");
 		for(int i=0;i<div2.size();i++) 
 			map2.put(div2.get(i).text(),div3.get(i).text());
-		System.out.println(map2.toString());
 		return map2;
 	};
 }
