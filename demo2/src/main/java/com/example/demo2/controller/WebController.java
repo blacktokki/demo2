@@ -60,4 +60,14 @@ public class WebController {
 	public String login(Model model) throws Exception{
 		return "redirect:/company";
 	}
+	
+	@GetMapping("/temp/board")
+	public String board() throws Exception{
+		return "board";
+	}
+	
+	@GetMapping("/temp/content")
+	public String content() throws Exception{
+		return "content";
+	}
 }

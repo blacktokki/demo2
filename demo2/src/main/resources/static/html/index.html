@@ -1,10 +1,13 @@
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<!------ Include the above in your HEAD tag ---------->
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+
 <title>main</title>
 
  <head>
+<link rel="stylesheet" type="text/css" href="/css/jquery.auto-complete.css" />
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script type="text/javascript" src="/js/jquery.auto-complete.js"></script>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         
@@ -59,6 +62,29 @@
                 </div>
             </div>
         </div>
-                          
+       <script>
+    
+	$(function(){
+         $('#keyworld').autoComplete({
+             minChars: 1,
+             source: function(term, suggest){
+                 $.ajax({
+                     type:"get",
+                     dataType:"json",                  //data를 json으로 return 받음.
+                     url:"/search/auto",          //json으로 데이터를 반환해야한다.
+                     data:{keyword : term},
+                     success:function(data){
+                     			suggest(data.result);
+                     		}
+             	});
+             },
+             
+             onSelect: function(e,term,item) {
+            	 console.log("Selected:" + term);
+            	 $('#keyworld').val("");
+             }
+         });
+	});
+	</script>        
 </body>
 </html>
