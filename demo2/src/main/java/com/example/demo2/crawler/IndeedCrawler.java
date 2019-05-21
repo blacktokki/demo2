@@ -9,18 +9,19 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.stereotype.Component;
 
 @Component
 public class IndeedCrawler implements Crawler{
 	
+	@Override
 	public List<Map<?,?>> getAutoComp(String keyword) throws Exception{
 		String url="https://kr.indeed.com/cmp/_cs/cmpauto?returncmppageurls=1&q="+keyword+"&caret=2&n=5";
 		Document doc = Jsoup.connect(url).ignoreContentType(true).get();
-		@SuppressWarnings("unchecked")
-		List<Map<?,?>> temp2=(List<Map<?,?>>)stringParse(doc.text());
-		return temp2;
+		JSONArray arr=(JSONArray)stringParse(doc.text());
+		return getAutoComp(arr);
 	}
 	
 	@Override
@@ -47,5 +48,5 @@ public class IndeedCrawler implements Crawler{
 		for(int i=0;i<div2.size();i++) 
 			map2.put(div2.get(i).text(),div3.get(i).text());
 		return map2;
-	};
+	}
 }

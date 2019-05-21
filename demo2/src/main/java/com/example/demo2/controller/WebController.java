@@ -5,7 +5,6 @@ import org.springframework.web.bind.annotation.*;
 import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
-import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,24 +18,20 @@ public class WebController {
 	@Autowired
 	JobService jobService;
 	
-	@ResponseBody
-	@GetMapping("/search/auto")
-    public JSONObject testAuto(Model model,@RequestParam String keyword){
-		model.addAttribute("keyword",keyword);
-    	return ((AutoCompleteService)companyService).search(model);
-    }
+	@GetMapping("/welcome/index")
+	public String index() throws Exception{
+		return "index";
+	}
 	
-	@ResponseBody
-	@GetMapping("/search/auto/category")
-    public JSONObject auto(Model model,@RequestParam String keyword){
-		model.addAttribute("keyword",keyword);
-    	return ((AutoCompleteService)jobService).search(model);
-    }
+	@GetMapping("/welcome/category")
+	public String category() throws Exception{
+		return "category";
+	}
 	
 	@GetMapping("job/result")
 	public String job(Model model,HttpServletRequest request){
 		model.addAttribute("request",request);
-		jobService.jobInfo(model);
+		jobService.jobs(model);
 		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
 		model.addAttribute("nameList", nameList);
 		return "job";
@@ -45,14 +40,14 @@ public class WebController {
 	@GetMapping("/company/{keyword}")
 	public String company(Model model,@PathVariable String keyword){
 		model.addAttribute("keyword",keyword);
-		companyService.companyInfo(model);
+		companyService.companies(model);
 		return "content";
 	}
 	
 	@GetMapping("/company/{keyword}/info")
 	public String companyInfo(Model model,@PathVariable String keyword){
 		model.addAttribute("keyword",keyword);
-		//companyService.companyInfo(model);
+		companyService.companiesInfo(model);
 		return "board";
 	}
 	

@@ -6,9 +6,9 @@
 	<head>
 		<title></title>
 		<meta charset="utf-8" />
+		<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-		<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 	</head>
 	<body>
 		<!-- Header -->

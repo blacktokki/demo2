@@ -5,7 +5,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.*;
 
-//import java.net.URLEncoder;
+import java.net.URLEncoder;
 
 import org.junit.Before;
 import org.junit.FixMethodOrder;
@@ -44,22 +44,22 @@ public class CtrlTest {
             .andDo(print())
             .andExpect(status().isOk());
     	}
-    }*/
-    /*
+    }
+    
     @Test
     public void test1() throws Exception {
     	mockMvc.perform(get("/search/auto?keyword=삼성전자"))
     	.andDo(print())
     	.andExpect(status().isOk());
     }
-    
+  	*/
     @Test
     public void test2() throws Exception {
     	mockMvc.perform(get("/search/auto/category?keyword=java"))
     	.andDo(print())
     	.andExpect(status().isOk());
-    }*/
-    
+    }
+    /*
     @Test
     public void test3() throws Exception {
     	mockMvc.perform(get("/job/result")
@@ -71,7 +71,7 @@ public class CtrlTest {
     			)
         .andDo(print())
         .andExpect(status().isOk());
-    }
+    }*/
     /*
     @Test
     public void test4() throws Exception {
@@ -79,5 +79,13 @@ public class CtrlTest {
     	mockMvc.perform(get("/company/"+keyword))
         .andDo(print())
         .andExpect(status().isOk());
+    }*/
+    /*
+    @Test
+    public void test5() throws Exception {
+    	String keyword=URLEncoder.encode("삼성전자","UTF-8");
+    	mockMvc.perform(get("/company/"+keyword+"/info"))
+    	.andDo(print())
+    	.andExpect(status().isOk());
     }*/
 }
