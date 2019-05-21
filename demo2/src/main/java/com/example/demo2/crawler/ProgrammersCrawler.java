@@ -1,5 +1,6 @@
 package com.example.demo2.crawler;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -16,9 +17,8 @@ public class ProgrammersCrawler implements Crawler{
 		String url="https://programmers.co.kr/tags/auto_complete?term="+keyword;
 		Document doc = Jsoup.connect(url).ignoreContentType(true).get();
 		JSONObject temp =(JSONObject)stringParse(doc.text());
-		@SuppressWarnings("unchecked")
-		List<Map<?,?>> temp2=(List<Map<?,?>>)temp.get("results");
-		return temp2;
+		JSONArray arr=(JSONArray)temp.get("results");
+		return getAutoComp(arr);
 	}
 	
 	@Override

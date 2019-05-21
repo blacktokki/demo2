@@ -5,10 +5,8 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 
 import org.springframework.stereotype.Component;
 
@@ -34,13 +32,12 @@ public class SaramInCrawler implements Crawler{
 	@Override
 	public Map<?,?> getPage(Map<?,?> map) throws Exception{
 		String url="http://api.saramin.co.kr/job-search";
-		@SuppressWarnings("unchecked")
-		Map<String,String> mapStr=(Map<String,String>)map;
-		mapStr.put("sr","directhire");
-		System.out.println(mapStr);
-		Document doc = Jsoup.connect(url).data(mapStr).ignoreContentType(true).get();
+		Document doc = Jsoup.connect(url).data(mapStr(map)).ignoreContentType(true).get();
 		Elements div=doc.select("job");
-		Map<String,Object> map2=new HashMap<>();
+		Map<String,Object> result=new HashMap<>();
+		//List<String> list=new ArrayList<>();
+		//for(Element ele:div)
+			//list.add(ele.toString());
 		List<Map<String,String>> list=new ArrayList<>();
 		for(Element ele:div){
 			Map<String,String> map3=new HashMap<>();
@@ -61,7 +58,23 @@ public class SaramInCrawler implements Crawler{
 			getPageMapper(map3,ele,"salary");
 			list.add(map3);
 		}
-		map2.put("jobs",list);
-		return map2;
+		result.put("jobs",list);
+		//System.out.println(result.toString());
+		return result;
 	};
+	
+
+	public Map<?,?> getPageInfo(Map<?,?> map) throws Exception{
+		//System.out.println(map.toString());
+		String url="http://www.saramin.co.kr/zf_user/search/saramin-data";
+		Document doc = Jsoup.connect(url).data(mapStr(map)).ignoreContentType(true).get();
+		Elements div =doc.select(".list_article > li");
+		List<String> list=new ArrayList<>();
+		for(Element e:div)
+			list.add(e.toString());
+		Map<String,Object> result=new HashMap<>();
+		result.put("info", list);
+	    //System.out.println(result.toString());
+		return result;
+	}
 }

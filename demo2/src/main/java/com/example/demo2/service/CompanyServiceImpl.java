@@ -4,6 +4,8 @@ import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.*;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,15 +13,18 @@ import org.springframework.ui.Model;
 
 
 import com.example.demo2.crawler.Crawler;
+import com.example.demo2.crawler.SaramInCrawler;
 
 @Service
-public class CompanyServiceImpl implements CompanyService,AutoCompleteService{
+public class CompanyServiceImpl implements CompanyService,AutoCompleteService,UtilService{
 	@Autowired
 	private Crawler kreditJobCrawler;
 	@Autowired
 	private Crawler jobPlanetCrawler;
 	@Autowired
 	private Crawler indeedCrawler;
+	@Autowired
+	private SaramInCrawler saramInCrawler;
 	
 	public class SearchThread extends Thread{
 		private Crawler crawler;
@@ -41,10 +46,10 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService{
 				List<Map<?,?>> list=crawler.getAutoComp(keyword);
 				synchronized (result) {
 					String ico=crawler.getIco();
-					for(Map<?,?> i:list) {
-						String bf=(String) i.get(crawler.getCompName());
+					for(Map<?,?> obj:list) {
+						String bf=(String) obj.get(crawler.getCompName());
 						//System.out.println(bf);
-						bf=bf.replace("(주)", "");
+						bf=bf.replaceAll("\\((.)\\)", "");
 						List<String> lii= new ArrayList<>();
 						if (icos.get(bf)==null) {
 							result.add(bf);
@@ -103,7 +108,7 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService{
 	}
 	
 	@Override
-	public void companyInfo(Model model) {
+	public void companies(Model model) {
 		Map<String,Object> map= model.asMap();
 		String keyword=(String) map.get("keyword");
 		Map<String,String> mapAll=new HashMap<>();
@@ -116,5 +121,22 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService{
 		catch(Exception e) {
 		}
 		model.addAttribute("icos",mapAll);
+	}
+
+	@Override
+	public void companiesInfo(Model model) {
+		Map<String,Object> map= model.asMap();
+		HttpServletRequest request=((HttpServletRequest) map.get("request"));
+		Map<String,String> mapStr=new HashMap<>();
+		requestMapper(request,mapStr,"category","");//분류
+		requestMapper(request,mapStr,"page","1");//시작번호
+		requestMapper(request,mapStr,"pageCount","20");//개수
+		try{
+			mapStr.put("searchword",URLDecoder.decode((String)map.get("keyword"),"UTF-8"));//검색어
+			model.addAttribute(saramInCrawler.getPageInfo(mapStr));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
 	}
 }

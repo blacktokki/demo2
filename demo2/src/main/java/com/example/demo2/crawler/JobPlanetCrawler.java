@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 
 @Component
@@ -18,10 +19,8 @@ public class JobPlanetCrawler implements Crawler{
 		String url="https://www.jobplanet.co.kr/autocomplete/autocomplete/suggest.json?term="+keyword;
 		Document doc = Jsoup.connect(url).ignoreContentType(true).get();
 		JSONObject temp =(JSONObject)stringParse(doc.text());
-		
-		@SuppressWarnings("unchecked")
-		List<Map<?,?>> temp2=(List<Map<?,?>>)temp.get("companies");
-		return temp2;
+		JSONArray arr=(JSONArray)temp.get("companies");
+		return getAutoComp(arr);
 	}
 	
 	@Override

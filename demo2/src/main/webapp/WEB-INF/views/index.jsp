@@ -16,7 +16,7 @@
 		<!-- Main -->
 
 		<main id="main">
-			<c:import url="/html/category.html" charEncoding="UTF-8"/>
+			<c:import url="/html/index.html" charEncoding="UTF-8"/>
 		</main>
 		<!-- Footer -->
 		<c:import url="/html/footer.html" charEncoding="UTF-8"/>
