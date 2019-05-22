@@ -53,13 +53,14 @@ public class CtrlTest {
     	.andExpect(status().isOk());
     }
   	*/
+    /*
     @Test
     public void test2() throws Exception {
     	mockMvc.perform(get("/search/auto/category?keyword=java"))
     	.andDo(print())
     	.andExpect(status().isOk());
-    }
-    /*
+    }*/
+    
     @Test
     public void test3() throws Exception {
     	mockMvc.perform(get("/job/result")
@@ -71,7 +72,7 @@ public class CtrlTest {
     			)
         .andDo(print())
         .andExpect(status().isOk());
-    }*/
+    }
     /*
     @Test
     public void test4() throws Exception {

@@ -1,3 +1,5 @@
+
+
 <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
 <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
@@ -5,6 +7,8 @@
 <title>main</title>
 
  <head>
+     
+
 <link rel="stylesheet" type="text/css" href="/css/jquery.auto-complete.css" />
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.auto-complete.js"></script>
@@ -45,33 +49,41 @@
         
     </head>
     <body>
-    
+ <form action="board.jsp" method="get">
+
       <div class="container">
             <div class="outer">
                 <div class="inner">
                     <div class="centered">
     
                          <div>       
-				 <input type="text" class="form-control search-slt" id="keyworld" placeholder="Enter Pickup City">
+				 <input type="text" class="form-control search-slt" id="keywords" placeholder="company name" >
                          
            </div>
-           <div class="alert alert-success">
-                 <a class="tag-item" href="board.html">검색</a>
+                      <div class="alert alert-success">
+                 <input type="submit"  value="검색"/>
+             
 		   </div>   
+</form>
                     </div>
                 </div>
             </div>
         </div>
+        </form>
+        <div id="aaa">
+        </div>
        <script>
     
+       
+       
 	$(function(){
-         $('#keyworld').autoComplete({
+         $('#keywords').autoComplete({
              minChars: 1,
              source: function(term, suggest){
                  $.ajax({
                      type:"get",
                      dataType:"json",                  //data를 json으로 return 받음.
-                     url:"/search/auto",          //json으로 데이터를 반환해야한다.
+                     url:"/search/auto/category",          //json으로 데이터를 반환해야한다.
                      data:{keyword : term},
                      success:function(data){
                      			suggest(data.result);
@@ -81,7 +93,12 @@
              
              onSelect: function(e,term,item) {
             	 console.log("Selected:" + term);
-            	 $('#keyworld').val("");
+
+         
+            	 $('#aaa').text($('#keywords').val());
+            	 
+            	 $('#keywords').val("");
+            	 
              }
          });
 	});
