@@ -65,14 +65,29 @@ public class SaramInCrawler implements Crawler{
 	
 
 	public Map<?,?> getPageInfo(Map<?,?> map) throws Exception{
-		//System.out.println(map.toString());
+		System.out.println(map.toString());
 		String url="http://www.saramin.co.kr/zf_user/search/saramin-data";
 		Document doc = Jsoup.connect(url).data(mapStr(map)).ignoreContentType(true).get();
 		Elements div =doc.select(".list_article > li");
-		List<String> list=new ArrayList<>();
-		for(Element e:div)
-			list.add(e.toString());
 		Map<String,Object> result=new HashMap<>();
+		result.put("cnt", doc.select(".cnt_result").text());
+		List<Map<String,String>> list=new ArrayList<>();
+		for(Element e:div) {
+			Map<String,String> map2=new HashMap<>();
+			Elements div2=e.select(".area_desc");
+			//System.out.println(div2.toString());
+			map2.put("title",div2.select(".desc_tit").text());
+			map2.put("title_url","http://www.saramin.co.kr/"+div2.select(".desc_tit > a").attr("href"));
+			map2.put("summary",div2.select(".desc_summary,.desc_spec").text());
+			Elements div3=div2.select(".desc_info");
+			map2.put("category",div3.select("span:first-of-type").text());
+			if(div3.select("span").size()==3)
+				map2.put("field",div3.select("span:eq(1)").text());
+			else
+				map2.put("field","");
+			map2.put("date",div3.select("span:last-of-type").text());
+			list.add(map2);
+		}
 		result.put("info", list);
 	    //System.out.println(result.toString());
 		return result;
