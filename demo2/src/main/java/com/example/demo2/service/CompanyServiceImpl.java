@@ -26,6 +26,10 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 	@Autowired
 	private SaramInCrawler saramInCrawler;
 	
+	private String reg(String string) {
+		return string.replaceAll("\\((.)\\)", "");
+	}
+	
 	public class SearchThread extends Thread{
 		private Crawler crawler;
 		private String keyword;
@@ -49,7 +53,7 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 					for(Map<?,?> obj:list) {
 						String bf=(String) obj.get(crawler.getCompName());
 						//System.out.println(bf);
-						bf=bf.replaceAll("\\((.)\\)", "");
+						bf=reg(bf);
 						List<String> lii= new ArrayList<>();
 						if (icos.get(bf)==null) {
 							result.add(bf);
@@ -101,7 +105,7 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		Map<?,?> map=crawler.getAutoFirst(crawler.getAutoComp(keyword));
 		String keyword2=(String) map.get(crawler.getCompName());
 		//System.out.println(keyword+"::"+keyword2);
-		if(keyword.replace("(주)", "").equals(keyword2.replace("(주)", ""))) {
+		if(reg(keyword).equals(reg(keyword2))) {
 			mapAll.put(crawler.getIco(),keyword2);
 			model.addAttribute(crawler.getIco(),crawler.getPage(map));
 		}
@@ -130,10 +134,9 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		Map<String,String> mapStr=new HashMap<>();
 		requestMapper(request,mapStr,"category","");//분류
 		requestMapper(request,mapStr,"page","1");//시작번호
-		requestMapper(request,mapStr,"pageCount","20");//개수
 		try{
 			mapStr.put("searchword",URLDecoder.decode((String)map.get("keyword"),"UTF-8"));//검색어
-			model.addAttribute(saramInCrawler.getPageInfo(mapStr));
+			model.addAttribute("result",saramInCrawler.getPageInfo(mapStr));
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

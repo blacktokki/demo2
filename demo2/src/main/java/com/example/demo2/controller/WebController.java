@@ -17,6 +17,8 @@ public class WebController {
 	CompanyService companyService;
 	@Autowired
 	JobService jobService;
+	@Autowired
+	BoardService boardService;
 	
 	@GetMapping("/welcome/index")
 	public String index() throws Exception{
@@ -45,7 +47,8 @@ public class WebController {
 	}
 	
 	@GetMapping("/company/{keyword}/info")
-	public String companyInfo(Model model,@PathVariable String keyword){
+	public String companyInfo(Model model,HttpServletRequest request,@PathVariable String keyword){
+		model.addAttribute("request",request);
 		model.addAttribute("keyword",keyword);
 		companyService.companiesInfo(model);
 		return "board";
@@ -69,5 +72,9 @@ public class WebController {
 	@GetMapping("/temp/content")
 	public String content() throws Exception{
 		return "content";
+	}
+	@GetMapping("/temp/content/edit")
+	public String contentEdit() throws Exception{
+		return "content-edit";
 	}
 }
