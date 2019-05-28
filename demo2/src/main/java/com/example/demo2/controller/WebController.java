@@ -20,7 +20,7 @@ public class WebController {
 	@Autowired
 	BoardService boardService;
 	
-	@GetMapping("/welcome/index")
+	@GetMapping({"/","/welcome","/welcome/index"})
 	public String index() throws Exception{
 		return "index";
 	}
@@ -51,7 +51,7 @@ public class WebController {
 		model.addAttribute("request",request);
 		model.addAttribute("keyword",keyword);
 		companyService.companiesInfo(model);
-		return "board";
+		return "list";
 	}
 	
 	@GetMapping("/login")
@@ -64,17 +64,12 @@ public class WebController {
 		return "redirect:/company";
 	}
 	
-	@GetMapping("/temp/board")
-	public String board() throws Exception{
-		return "board";
-	}
-	
 	@GetMapping("/temp/content")
 	public String content() throws Exception{
 		return "content";
 	}
-	@GetMapping("/temp/content/edit")
+	@GetMapping("/temp/board")
 	public String contentEdit() throws Exception{
-		return "content-edit";
+		return "board";
 	}
 }
