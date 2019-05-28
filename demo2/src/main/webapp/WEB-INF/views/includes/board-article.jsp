@@ -1,13 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<tr>
-   <td id="number">
-   	${info.category}<br>
-   	${info.field}<br>
-   	${info.date}
-   	</td>
-   <td id="title">
-   		<strong>${info.title}</strong><br>
-   		${info.summary}
-   </td>
-</tr>
+<div class="centered">
+	<script src="//cdn.ckeditor.com/4.11.4/standard/ckeditor.js"></script>
+	<textarea id="editor"></textarea>
+	<script>
+		CKEDITOR.replace( 'editor', {
+		} );
+	</script>
+</div>
