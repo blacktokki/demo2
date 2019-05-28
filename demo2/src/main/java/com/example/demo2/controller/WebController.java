@@ -64,11 +64,6 @@ public class WebController {
 		return "redirect:/company";
 	}
 	
-	@GetMapping("/temp/list")
-	public String board() throws Exception{
-		return "list";
-	}
-	
 	@GetMapping("/temp/content")
 	public String content() throws Exception{
 		return "content";
