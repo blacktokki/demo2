@@ -6,6 +6,8 @@
 
 <title>main</title>
 
+
+
  <head>
      
 
@@ -48,6 +50,7 @@
         </style>
         
     </head>
+    	
     <body>
  <form action="board.jsp" method="get">
 
@@ -70,11 +73,15 @@
             </div>
         </div>
         </form>
-        <div id="aaa">
+       
+        
+        <div style="BORDER-RIGHT:#ff0000 1px solid;BORDER-TOP:#ff0000 1px solid;BORDER-LEFT:#ff0000 1px solid;BORDER-BOTTOM:#ff0000 1px solid">
+<div id="tags"></div>      
         </div>
+        
        <script>
     
-       
+
        
 	$(function(){
          $('#keywords').autoComplete({
@@ -93,17 +100,27 @@
              
              onSelect: function(e,term,item) {
             	 console.log("Selected:" + term);
-
-         
-            	 $('#aaa').text($('#keywords').val());
+            	 var str=$('#tags').html();
+            	 console.log("str: "+str);
+            	 str+="<div id='tag'>"+term+"</div>";
+            	 $('#tags').html(str);
+            	  	             	 
             	 
             	 $('#keywords').val("");
             	 
+            	 
              }
          });
+         $("#tags").delegate("#tag","click",function(){
+        	 console.log($(this).html());
+        	 $(this).remove();
+         });
 	});
+
+	
 	
 	</script>        
+
 
 </body>
 </html>
