@@ -1,109 +1,36 @@
-
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-
-<title>main</title>
-
- <head>
-     
-
 <link rel="stylesheet" type="text/css" href="/css/jquery.auto-complete.css" />
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.auto-complete.js"></script>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-         <style>
-            html {
-                width: 100%;
-                height: 100%;
-            }
-            .container {
-                width: 70%;
-                height: 70%;
-                margin: 40px auto;
-                background: white;
-            }
-            .outer {
-                display: table;
-                width: 100%;
-                height: 100%;
-            }
-            .inner {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-            }
-            .centered {
-                position: relative;
-                display: inline-block;
-                width: 50%;
-                padding: 1em;
-                background: white;
-                color: white;
-            }
-      
-        </style>
-        
-    </head>
-    <body>
- <form action="board.jsp" method="get">
-
-      <div class="container">
-            <div class="outer">
-                <div class="inner">
-                    <div class="centered">
-    
-                         <div>       
-				 <input type="text" class="form-control search-slt" id="keywords" placeholder="company name" >
-                         
-           </div>
-                      <div class="alert alert-success">
-                 <input type="submit"  value="검색"/>
-             
-		   </div>   
+<form>      
+	<input type="text" class="form-control search-slt" id="keywords" placeholder="company name" >
+	<input type="hidden" name="url" id="search-url" value="">
 </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </form>
-        <div id="aaa">
-        </div>
-       <script>
-    
-       
-       
+<div class="alert alert-success">
+</div>
+<script>
 	$(function(){
+		$("#keywords").keydown(function() {
+		    if (event.keyCode === 13) {
+		        event.preventDefault();
+		    }
+		});
          $('#keywords').autoComplete({
              minChars: 1,
              source: function(term, suggest){
                  $.ajax({
                      type:"get",
                      dataType:"json",                  //data를 json으로 return 받음.
-                     url:"/search/auto/category",          //json으로 데이터를 반환해야한다.
+                     url:"/search/auto",         //json으로 데이터를 반환해야한다.
                      data:{keyword : term},
                      success:function(data){
                      			suggest(data.result);
                      		}
              	});
              },
-             
              onSelect: function(e,term,item) {
+            	 location.href("/company/"+term+$("#search-url").val());
             	 console.log("Selected:" + term);
-
-         
-            	 $('#aaa').text($('#keywords').val());
-            	 
-            	 $('#keywords').val("");
-            	 
              }
          });
-	});
-	
-	</script>        
-
-</body>
-</html>
+	});			
+</script>

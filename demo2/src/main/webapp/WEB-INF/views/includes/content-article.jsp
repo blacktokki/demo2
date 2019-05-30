@@ -5,23 +5,6 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>글 읽기</title>
-<script type="text/javascript">
-	function move(url) {
-		location.href=url;
-	}
-	function boardViewCheck() {
-		var form = document.BoardViewForm;
-		return true;
-	}
-</script>
-
-<style>
-@import url(http://fonts.googleapis.com/earlyaccess/nanumgothic.css);
-
-body {
-	font-family: 'Nanum Gothic', sans-serif;
-}
-</style>
 </head>
 
 <body>
@@ -47,10 +30,10 @@ body {
 	</tr>
 	<tr> 
 		<td align=center bgcolor=#dddddd> 제 목</td>
-		<td bgcolor=#ffffe8 colspan=3> 게시판 글입니다</td>
+		<td bgcolor=#ffffe8 colspan=3>${company.title}</td>
    </tr>
    <tr> 
-		<td colspan=4><br>가나다라마바사<br></td>
+		<td colspan=4><br>${company.content}<br></td>
    </tr>
    <tr>
 		<td colspan=4 align=right> 조회수  : </td>

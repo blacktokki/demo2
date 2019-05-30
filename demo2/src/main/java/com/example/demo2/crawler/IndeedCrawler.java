@@ -42,6 +42,7 @@ public class IndeedCrawler implements Crawler{
 		Document doc = Jsoup.connect(url).get();
 		Elements div=doc.select(".cmp-ReviewAndRatingsStory-ratings");
 		Map<String,String> map2=new HashMap<>();
+		map2.put("CompName", (String) map.get(getCompName()));
 		Elements div2,div3;
 		div2=div.select(".cmp-ReviewCategory-name");
 		div3=div.select(".cmp-ReviewCategory-rating");

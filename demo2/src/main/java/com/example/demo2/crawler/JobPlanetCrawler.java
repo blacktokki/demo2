@@ -40,6 +40,7 @@ public class JobPlanetCrawler implements Crawler{
 		Document doc = Jsoup.connect(url).get();
 		Elements div=doc.select("#contents_wrap");
 		Map<String,String> map2=new HashMap<>();
+		map2.put("CompName", (String) map.get(getCompName()));
 		Elements div2,div3;
 			div3=div.select(".stats_ttl");
 			map2.put("전체 리뷰 통계", div3.get(0).text());

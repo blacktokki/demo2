@@ -101,13 +101,13 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		return json;
 	}
 	
-	private void companyInfo(Crawler crawler,String keyword,Model model,Map<String,String> mapAll) throws Exception{
+	private void companyInfo(Crawler crawler,String keyword,List<String> title,Map<String,Object> content) throws Exception{
 		Map<?,?> map=crawler.getAutoFirst(crawler.getAutoComp(keyword));
 		String keyword2=(String) map.get(crawler.getCompName());
 		//System.out.println(keyword+"::"+keyword2);
-		if(reg(keyword).equals(reg(keyword2))) {
-			mapAll.put(crawler.getIco(),keyword2);
-			model.addAttribute(crawler.getIco(),crawler.getPage(map));
+		if(reg(keyword).equals(reg(keyword2))){
+			title.add(keyword2);
+			content.put(crawler.getIco(),crawler.getPage(map));
 		}
 	}
 	
@@ -115,16 +115,20 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 	public void companies(Model model) {
 		Map<String,Object> map= model.asMap();
 		String keyword=(String) map.get("keyword");
-		Map<String,String> mapAll=new HashMap<>();
+		Map<String,Object> company=new HashMap<>();
+		Map<String,Object> content=new HashMap<>();
+		List<String> title=new ArrayList<>();
 		try {
 			keyword=URLDecoder.decode(keyword, "UTF-8");
-			companyInfo(kreditJobCrawler,keyword,model,mapAll);
-			companyInfo(jobPlanetCrawler,keyword,model,mapAll);
-			companyInfo(indeedCrawler,keyword,model,mapAll);
+			companyInfo(kreditJobCrawler,keyword,title,content);
+			companyInfo(jobPlanetCrawler,keyword,title,content);
+			companyInfo(indeedCrawler,keyword,title,content);
 		}
 		catch(Exception e) {
 		}
-		model.addAttribute("icos",mapAll);
+		company.put("title", title.get(0));
+		company.put("content",content);
+		model.addAttribute("company",company);
 	}
 
 	@Override
