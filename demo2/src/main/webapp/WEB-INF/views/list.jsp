@@ -10,17 +10,17 @@
 		<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 		<script src="http://code.jquery.com/jquery-1.6.4.min.js"></script>
 		<style>
-	    #container {
-	      width: 100%;
+	    #main {
+	      width: 80%;
 	      margin: 0 auto;     /* 가로로 중앙에 배치 */
 	      padding-top: 10%;   /* 테두리와 내용 사이의 패딩 여백 */
 	    }
 	     
-	    #list {
+	    #board-info {
 	      text-align: center;
 	    }
 	   
-	    #write {
+	    #board-name {
 	      text-align: right;
 	    }
 	     
@@ -38,6 +38,7 @@
 	      text-align: center;
 	    }
 	    .table > tbody > tr > #title {
+	       width: 80%;
 	      text-align: left;
 	    }
 	     
@@ -72,16 +73,14 @@
 		<!-- Main -->
 		<main id="main">
 			<!-- Header -->
-			<c:set var="cnt_result" value="${result.cnt}" scope="request"/>
 			<c:import url="includes/list-header.jsp" charEncoding="UTF-8"/>
 			
 			<div>
       		<table class="table table-striped table-bordered table-hover">
         	<thead>
-	          <tr>
-	            <th width="15%">  번호</th>
-            	<th width="85%">제목</th>
-	          </tr>
+        		<th colspan="2">
+        			<c:import url="/html/index.html" charEncoding="UTF-8"/>
+        		</th>
        		 </thead>
        		 <tbody>
 			<c:forEach items="${result.info}" var="info" varStatus="status">
