@@ -38,8 +38,11 @@ public class KreditJobCrawler implements Crawler{
 		String url="https://kreditjob.com/api/company/companyPage";
 		Document doc = Jsoup.connect(url).data(mapStr(map)).ignoreContentType(true).post();
 		Elements body=doc.select("body");
-		Map<String, String> obj=mapStr((Map<?, ?>)stringParse(body.text()));
-		obj.put("CompName", (String) map.get(getCompName()));
-		return obj;
+		Map<?,?> obj=(Map<?, ?>)stringParse(body.text());
+		Map<String,String> result=mapStr((Map<?, ?>)obj.get("companyInfoData"));
+		System.out.println(result.toString());
+		result.put("CompName", (String) map.get(getCompName()));
+		result.put("url", url);
+		return result;
 	}
 }

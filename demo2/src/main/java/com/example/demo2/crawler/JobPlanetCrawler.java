@@ -42,19 +42,19 @@ public class JobPlanetCrawler implements Crawler{
 		Map<String,String> map2=new HashMap<>();
 		map2.put("CompName", (String) map.get(getCompName()));
 		Elements div2,div3;
-			div3=div.select(".stats_ttl");
-			map2.put("전체 리뷰 통계", div3.get(0).text());
+			div2=div.select(".stats_ttl");
+			map2.put("totalReview", div2.get(0).text());
 		  
-			div2=div.select(".rate_txt");
-			div3=div.select(".rate_point");
-			map2.put(div2.get(0).text(), div3.get(0).text());
+			div2=div.select(".rate_point");
+			map2.put("score", div2.get(0).text());
 		  
 			div2=div.select(".rate_bar_set dt");
 			div3=div.select(".rate_bar_set dd");
-			for(int i=0;i<div2.size();i++) 
-				map2.put(div2.get(i).text(),div3.get(i).text());
-		
-		System.out.println(map2.toString());
+			for(int i=0;i<div2.size();i++) {
+				map2.put("score"+i,div2.get(i).text());
+				map2.put("scoreVal"+i,div3.get(i).text());
+			}
+		map2.put("url", url);
 		return map2;
 	};
 }
