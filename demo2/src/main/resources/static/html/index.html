@@ -4,9 +4,20 @@
 <form>      
 	<input type="text" class="form-control search-slt" id="keywords" placeholder="company name" >
 	<input type="hidden" name="url" id="search-url" value="">
+	<div class="alert alert-success">
+	</div>
+	<div style="
+			BORDER-RIGHT:#ff0000 1px solid;
+			BORDER-TOP:#ff0000 1px solid;
+			BORDER-LEFT:#ff0000 1px solid;
+			BORDER-BOTTOM:#ff0000 1px solid;
+			background: white;
+     		color: black;
+			">
+		<div id="tags">
+		</div>
+	</div> 
 </form>
-<div class="alert alert-success">
-</div>
 <script>
 	$(function(){
 		$("#keywords").keydown(function() {
@@ -32,5 +43,5 @@
             	 console.log("Selected:" + term);
              }
          });
-	});			
+	});	
 </script>

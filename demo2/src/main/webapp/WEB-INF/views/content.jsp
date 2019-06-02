@@ -4,10 +4,6 @@
 <!DOCTYPE HTML>
 <html>
 	<head>
-<style>
-
-</style>
-	
 		<title></title>
 		<meta charset="utf-8" />
 		<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
@@ -17,12 +13,17 @@
 	<body>
 		<!-- Header -->
 		<c:import url="/html/header.html" charEncoding="UTF-8"/>
+		<div class="searchBar">
+			<c:import url="${struct.searchBox}" charEncoding="UTF-8"/>
+		</div>
+		<script>
+			$(".searchBox").html($(".searchBar"));
+		</script>
 		<!-- Main -->
 		<main id="main">
 			<!-- Header -->
-			<c:set var="____" value="${____}" scope="request"/>
-			<c:import url="includes/content-header.jsp" charEncoding="UTF-8"/>
-			<c:import url="includes/content-article.jsp" charEncoding="UTF-8"/>
+			<!-- c:import url="includes/content-header.jsp" charEncoding="UTF-8"/-->
+			<c:import url="${struct.article}" charEncoding="UTF-8"/>
 			<c:import url="/html/content-footer.html" charEncoding="UTF-8"/>
 		</main>
 		<!-- Footer -->

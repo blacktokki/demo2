@@ -10,8 +10,8 @@
 	   		${job.expiration_timestamp}
 	   	</td>
 	   <td id="title">
-	   		${job.name}<br>
-		   	<strong>${job.title}</strong><br>
+	   		<a href="${job.comp_href}">${job.name}</a><br>
+		   	<strong><a href="${job.url}">${job.title}</a></strong><br>
 	   		키워드&nbsp;:&nbsp;${job.keyword}
 	   		<!--  
 	   		회사명 &nbsp; ${job.name}<br>

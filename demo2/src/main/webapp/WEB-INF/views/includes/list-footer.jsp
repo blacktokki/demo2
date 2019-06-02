@@ -4,6 +4,6 @@
 <!-- Paging 처리 -->
 <div id="paging">
 	<c:forEach items="${paging.url}" var="url" varStatus="status">
-	 	<a href="${status.current}">${status.count+paging.minPage}</a>
+	 	<a href="${status.current}">${status.index+paging.minPage}</a>
 	</c:forEach>
 </div>

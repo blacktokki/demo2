@@ -70,7 +70,13 @@
 	<body>
 		<!-- Header -->
 		<c:import url="/html/header.html" charEncoding="UTF-8"/>
-		<!-- c:import url="/html/index.html" charEncoding="UTF-8"/-->
+		<div class="searchBar">
+			<c:import url="${struct.searchBox}" charEncoding="UTF-8"/>
+		</div>
+		<script>
+			$(".searchBox").html($(".searchBar"));
+		</script>
+			
 		<!-- Main -->
 		<main id="main">
 			<!-- Header -->
