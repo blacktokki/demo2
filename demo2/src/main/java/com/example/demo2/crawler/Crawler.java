@@ -8,7 +8,7 @@ import com.example.demo2.config.ApplicationContextProvider;
 
 
 public interface Crawler{
-	public JSONParser JPAR=ApplicationContextProvider.getBean("jsonParser");
+	public JSONParser JPAR=new JSONParser();
 	
 	default Object stringParse(String string) throws Exception{
 		Object obj;
