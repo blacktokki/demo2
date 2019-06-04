@@ -17,8 +17,4 @@ public class ApplicationContextProvider implements ApplicationContextAware{
     public static ApplicationContext getApplicationContext() {
         return applicationContext;
     }
-    @SuppressWarnings("unchecked")
-	public static <T> T getBean(String string){
-    	return (T)getApplicationContext().getBean(string);
-    }
 }

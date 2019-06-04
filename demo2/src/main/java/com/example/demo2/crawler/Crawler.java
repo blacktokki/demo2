@@ -8,12 +8,15 @@ import com.example.demo2.config.ApplicationContextProvider;
 
 
 public interface Crawler{
-	public JSONParser JPAR=new JSONParser();
+	
+	public static JSONParser getJSONParser() {
+		return ApplicationContextProvider.getApplicationContext().getBean("jsonParser",JSONParser.class);
+	}
 	
 	default Object stringParse(String string) throws Exception{
 		Object obj;
-		synchronized (JPAR) {
-			obj=JPAR.parse(string);
+		synchronized (getJSONParser()) {
+			obj=getJSONParser().parse(string);
 		}
 		return obj;
 	}
