@@ -1,11 +1,93 @@
 <link rel="stylesheet" type="text/css" href="/css/jquery.auto-complete.css" />
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.auto-complete.js"></script>
-<form>      
-	<input type="text" class="form-control search-slt" id="keywords" placeholder="company name" >
+
+<style>
+
+        .Header{
+            border : 2px solid red;
+            line-height: 55px;
+            height : 55px;
+        }
+        .Nav{
+            border : 2px;
+            height : 110px;
+        }
+        .Content{
+            border : 2px solid green;
+            height : 500px;
+            line-height: 500px;
+        }
+        .Footer {
+            border : 2px solid black;            
+            height : 55px;
+            line-height : 55px;
+        }
+        ul {
+            list-style: none;
+            padding-left : 0px;
+        }
+
+
+.wrap {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position:relative;
+  top:-40px;
+  left:300px;
+}
+
+.button {
+  width: 140px;
+  height: 45px;
+  font-family: 'Roboto', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  font-weight: 500;
+  color: #000;
+  background-color: #fff;
+  border: none;
+  border-radius: 45px;
+ 
+  transition: all 0.3s ease 0s;
+  cursor: pointer;
+  outline: none;
+  }
+
+.button:hover {
+  background-color: #000080;
+  
+  color: #fff;
+
+}
+
+</style>
+
+
+
+<form action="#" method="get" id="urltarget">      
+
+
+
+
+<div class = "Nav">
+        <ul>
+          <div style = " font-size:5em;  color: #000080;">화사</div>
+        </ul>
+    </div>
+<div class="content">
+	<input type="text" class="form-control search-slt" id="keywords" placeholder="company name">
 	<input type="hidden" name="url" id="search-url" value="">
-	<div class="alert alert-success">
-	</div>
+	
+</div>
+ 
+<div class="wrap">
+  <input type="submit" class="button" style = "font-size:2em"value="검색">
+</div>
+
 	<div style="
 			BORDER-RIGHT:#ff0000 1px solid;
 			BORDER-TOP:#ff0000 1px solid;
@@ -18,20 +100,27 @@
 		</div>
 	</div> 
 </form>
-<script>
+
+<script type="text/javascript">
+
 	$(function(){
 		$("#keywords").keydown(function() {
 		    if (event.keyCode === 13) {
 		        event.preventDefault();
 		    }
 		});
+		
+		$("#keywords").change(function(){
+			$("#urltarget").attr("action","/company/"+$(this).val());
+		});
+		
          $('#keywords').autoComplete({
              minChars: 1,
              source: function(term, suggest){
                  $.ajax({
                      type:"get",
-                     dataType:"json",                  //data를 json으로 return 받음.
-                     url:"/search/auto",         //json으로 데이터를 반환해야한다.
+                     dataType:"json",                  //data瑜� json�쑝濡� return 諛쏆쓬.
+                     url:"/search/auto",         //json�쑝濡� �뜲�씠�꽣瑜� 諛섑솚�빐�빞�븳�떎.
                      data:{keyword : term},
                      success:function(data){
                      			suggest(data.result);
@@ -39,9 +128,13 @@
              	});
              },
              onSelect: function(e,term,item) {
-            	 location.href("/company/"+term+$("#search-url").val());
+            	 location.href="/company/"+term+$("#search-url").val();
             	 console.log("Selected:" + term);
              }
          });
+       
+         
 	});	
+	
+	
 </script>
