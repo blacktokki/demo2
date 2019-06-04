@@ -8,12 +8,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 
 
 import com.example.demo2.crawler.Crawler;
 import com.example.demo2.crawler.SaramInCrawler;
+import com.example.demo2.domain.Board;
+import com.example.demo2.repository.BoardRepository;
 
 @Service
 public class CompanyServiceImpl implements CompanyService,AutoCompleteService,UtilService{
@@ -25,6 +29,10 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 	private Crawler indeedCrawler;
 	@Autowired
 	private SaramInCrawler saramInCrawler;
+	@Autowired
+	private BoardRepository boardRepository;
+	//@Autowired
+	//private List<Board> boardDummy;
 	
 	private String reg(String string) {
 		return string.replaceAll("\\((.)\\)", "");
@@ -36,7 +44,8 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		private List<String> result;
 		private Map<String,List<String>> icos;
 		
-		public SearchThread(Crawler crawler,String keyword,List<String> result,Map<String,List<String>> icos) {
+		public SearchThread(Crawler crawler,String keyword,List<String> result
+				,Map<String,List<String>> icos) {
 			this.crawler=crawler;
 			this.keyword=keyword;
 			this.result=result;
@@ -100,35 +109,34 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		json.put("icos", icos);
 		return json;
 	}
-	
-	private void companyInfo(Crawler crawler,String keyword,List<String> title,Map<String,Object> content) throws Exception{
+
+	private void companies(Crawler crawler,String keyword,Map<String,Object> result) throws Exception{
 		Map<?,?> map=crawler.getAutoFirst(crawler.getAutoComp(keyword));
 		String keyword2=(String) map.get(crawler.getCompName());
 		//System.out.println(keyword+"::"+keyword2);
-		if(reg(keyword).equals(reg(keyword2))){
-			title.add(keyword2);
-			content.put(crawler.getIco(),crawler.getPage(map));
-		}
+		if(reg(keyword).equals(reg(keyword2)))
+			result.put(crawler.getIco(),crawler.getPage(map));
 	}
 	
 	@Override
 	public void companies(Model model) {
 		Map<String,Object> map= model.asMap();
 		String keyword=(String) map.get("keyword");
-		Map<String,Object> company=new HashMap<>();
-		Map<String,Object> content=new HashMap<>();
-		List<String> title=new ArrayList<>();
+		Map<String,Object> result=new HashMap<>();
 		try {
 			keyword=URLDecoder.decode(keyword, "UTF-8");
-			companyInfo(kreditJobCrawler,keyword,title,content);
-			companyInfo(jobPlanetCrawler,keyword,title,content);
-			companyInfo(indeedCrawler,keyword,title,content);
+			companies(kreditJobCrawler,keyword,result);
+			companies(jobPlanetCrawler,keyword,result);
+			companies(indeedCrawler,keyword,result);
+			System.out.println(result.toString());
 		}
 		catch(Exception e) {
 		}
-		company.put("title", title.get(0));
-		company.put("content",content);
-		model.addAttribute("company",company);
+		model.addAttribute("result",result);
+		model.addAttribute("struct",getDocumentStruct(
+				keyword,
+				"/html/index.html",
+				"includes/content-company.jsp"));
 	}
 
 	@Override
@@ -138,12 +146,56 @@ public class CompanyServiceImpl implements CompanyService,AutoCompleteService,Ut
 		Map<String,String> mapStr=new HashMap<>();
 		requestMapper(request,mapStr,"category","");//분류
 		requestMapper(request,mapStr,"page","1");//시작번호
+		String keyword="";
+		Map<?,?> result=null;
 		try{
-			mapStr.put("searchword",URLDecoder.decode((String)map.get("keyword"),"UTF-8"));//검색어
-			model.addAttribute("result",saramInCrawler.getPageInfo(mapStr));
+			
+			keyword=URLDecoder.decode((String)map.get("keyword"),"UTF-8");
+			mapStr.put("searchword",keyword);//검색어
+			result=saramInCrawler.getPageInfo(mapStr);
+			model.addAttribute("result",result);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+		model.addAttribute("struct",getDocumentStruct(
+				keyword+" 자료실",
+				"/html/index.html",
+				"includes/list-info.jsp"));
+		model.addAttribute("paging",getDocumentPaging(
+				request,
+				"page",
+				Integer.parseInt((String)result.get("cnt"))/20));
+	}
+	
+	@Override
+	public void companiesBoard(Model model) {
+		Map<String,Object> map= model.asMap();
+		HttpServletRequest request=((HttpServletRequest) map.get("request"));
+		String keyword=(String)map.get("keyword");
+		try {
+			model.addAttribute("keywordEncode",URLEncoder.encode(keyword,"UTF-8"));
+			keyword=URLDecoder.decode(keyword,"UTF-8");
+			model.addAttribute("keywordDecode",keyword);
+		}
+		catch(Exception e) {
+		}
+		List<Board> boards=boardRepository.findByCompName(keyword,PageRequest.of(0, 20, Sort.by("regDate")));//boardDummy;
+		Map<String,Object> result=new HashMap<>();
+		//System.out.println(boards.toString());
+		result.put("boards", boards);
+		result.put("cnt", boardRepository.countByCompName(keyword));
+		for(Board board:boards) {
+			String str=board.getContent();
+			board.setContent(str.length()>30?str.substring(0,30)+"...":str);
+		}
+		model.addAttribute("result",result);
+		model.addAttribute("struct",getDocumentStruct(
+				keyword+" 게시판",
+				"/html/index.html",
+				"includes/list-board.jsp"));
+		model.addAttribute("paging",getDocumentPaging(
+				request,
+				"count",
+				((Long)result.get("cnt")).intValue()/20));
 	}
 }

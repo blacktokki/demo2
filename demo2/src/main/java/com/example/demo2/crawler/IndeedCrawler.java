@@ -46,8 +46,11 @@ public class IndeedCrawler implements Crawler{
 		Elements div2,div3;
 		div2=div.select(".cmp-ReviewCategory-name");
 		div3=div.select(".cmp-ReviewCategory-rating");
-		for(int i=0;i<div2.size();i++) 
-			map2.put(div2.get(i).text(),div3.get(i).text());
+		for(int i=0;i<div2.size();i++) {
+			map2.put("score"+i, div2.get(i).text());
+			map2.put("scoreVal"+i,div3.get(i).text());
+		}
+		map2.put("url", url);
 		return map2;
 	}
 }

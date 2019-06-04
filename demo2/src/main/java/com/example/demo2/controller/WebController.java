@@ -2,12 +2,13 @@ package com.example.demo2.controller;
 
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+
+import com.example.demo2.domain.Board;
 import com.example.demo2.service.*;
 
 @Controller
@@ -34,9 +35,7 @@ public class WebController {
 	public String job(Model model,HttpServletRequest request){
 		model.addAttribute("request",request);
 		jobService.jobs(model);
-		List<String> nameList = new ArrayList<String>(Arrays.asList("홍길동", "김철수", "박영희"));
-		model.addAttribute("nameList", nameList);
-		return "job";
+		return "list";
 	}
 	
 	@GetMapping("/company/{keyword}")
@@ -53,6 +52,27 @@ public class WebController {
 		companyService.companiesInfo(model);
 		return "list";
 	}
+	@GetMapping("/company/{keyword}/board")
+	public String companyBoard(Model model,HttpServletRequest request,@PathVariable String keyword){
+		model.addAttribute("request",request);
+		model.addAttribute("keyword",keyword);
+		companyService.companiesBoard(model);
+		return "list";
+	}
+	
+	@GetMapping("/board")
+	public String board(Model model,@ModelAttribute("compName") String compName) throws Exception{
+		model.addAttribute("compName",compName);
+		boardService.write(model);
+		return "board";
+	}
+	@PostMapping("/board")
+	public String board(Model model,@ModelAttribute("board")Board board,@ModelAttribute("compNameEncode") String compName) throws Exception{
+		boardService.save(model);
+		return "redirect:/company/"+compName+"/board";
+	}
+	
+	
 	
 	@GetMapping("/login")
 	public String login() throws Exception{
@@ -67,9 +87,5 @@ public class WebController {
 	@GetMapping("/temp/content")
 	public String content() throws Exception{
 		return "content";
-	}
-	@GetMapping("/temp/board")
-	public String contentEdit() throws Exception{
-		return "board";
 	}
 }

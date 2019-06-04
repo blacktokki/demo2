@@ -70,23 +70,24 @@
 	<body>
 		<!-- Header -->
 		<c:import url="/html/header.html" charEncoding="UTF-8"/>
+		<div class="searchBar">
+			<c:import url="${struct.searchBox}" charEncoding="UTF-8"/>
+		</div>
+		<script>
+			$(".searchBox").html($(".searchBar"));
+		</script>
+			
 		<!-- Main -->
 		<main id="main">
 			<!-- Header -->
 			<c:import url="includes/list-header.jsp" charEncoding="UTF-8"/>
-			
-			<div>
       		<table class="table table-striped table-bordered table-hover">
         	<thead>
         		<th colspan="2">
-        			<c:import url="/html/index.html" charEncoding="UTF-8"/>
         		</th>
        		 </thead>
        		 <tbody>
-			<c:forEach items="${result.info}" var="info" varStatus="status">
-				<c:set var="info" value="${info}" scope="request"/>
-				<c:import url="includes/list-article.jsp" charEncoding="UTF-8"/>
-			</c:forEach>
+				<c:import url="${struct.article}" charEncoding="UTF-8"/>
 			</tbody>
 			</table>
 			<!-- Footer -->

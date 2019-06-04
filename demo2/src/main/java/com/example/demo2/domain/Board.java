@@ -1,12 +1,14 @@
 package com.example.demo2.domain;
 
+
+import java.util.Date;
 import javax.persistence.*;
 
 @Entity
 @Table(name="table1")
 public class Board {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "idx")
     private Integer idx;
 
@@ -19,14 +21,35 @@ public class Board {
     @Column(name="name", nullable = false)
     private String name;
 
+    @Temporal(TemporalType.TIMESTAMP)
     @Column(name="reg_date", nullable = false)
-    private String regDate;
+    private Date regDate= new Date();
 
     @Column(name="category", nullable = false)
-    private String category;
+    private String category=new String();
+    
+    @Column(name="comp_name",nullable = false)
+    private String compName;
     
     @Column(name="hit", nullable = false)
-    private Integer hit;
+    //@ColumnDefault()
+    private Integer hit=0;
+    
+    public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCompName() {
+		return compName;
+	}
+
+	public void setCompName(String compName) {
+		this.compName = compName;
+	}
     
     public Integer getIdx() {
 		return idx;
@@ -52,11 +75,11 @@ public class Board {
 		this.content = content;
 	}
 
-	public String getRegDate() {
+	public Date getRegDate() {
 		return regDate;
 	}
 
-	public void setRegDate(String regDate) {
+	public void setRegDate(Date regDate) {
 		this.regDate = regDate;
 	}
 

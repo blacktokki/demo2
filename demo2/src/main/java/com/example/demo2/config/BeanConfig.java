@@ -25,8 +25,8 @@ public class BeanConfig {
     		board.setIdx(i+9000);
     		board.setTitle("제목");
     		board.setContent("내용");
-    		board.setRegDate("2019.01.01");
-    		board.setHit(1+i);
+    		board.setName("이름");
+    		board.setCompName("회사이름");
     		result.add(board);
     	}
     	return result;

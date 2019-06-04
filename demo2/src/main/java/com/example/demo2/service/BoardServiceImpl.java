@@ -1,5 +1,7 @@
 package com.example.demo2.service;
 
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.List;
 import java.util.Map;
 
@@ -11,28 +13,46 @@ import com.example.demo2.domain.Board;
 import com.example.demo2.repository.BoardRepository;
 
 @Service
-public class BoardServiceImpl implements BoardService {
+public class BoardServiceImpl implements BoardService,UtilService{
 	@Autowired
 	private BoardRepository boardRepository;
+	@SuppressWarnings("unused")
 	@Autowired
 	private List<Board> boardDummy;
 	
+	@Override
 	public void content(Model model) {
-		System.out.println(boardDummy.get(0).getHit());
 		Map<String,Object> map= model.asMap();
 		Integer idx=(Integer)map.get("idx");
 		Board board=boardRepository.findById(idx).get();
 		model.addAttribute("board", board);
 	}
 	
-	public void list(Model model) {
-		List<Board> boardList=boardRepository.findAll();
-		model.addAttribute("board_list", boardList);
-	}
-	
+	@Override
 	public void write(Model model) {
 		Map<String,Object> map= model.asMap();
+		String keyword=(String)map.get("compName");
+		try {
+			model.addAttribute("compNameEncode",URLEncoder.encode(keyword,"UTF-8"));
+			keyword=URLDecoder.decode(keyword,"UTF-8");
+			model.addAttribute("compNameDecode",keyword);
+		}
+		catch(Exception e) {
+		}
+		model.addAttribute("struct",getDocumentStruct(
+				"글작성",
+				"/html/index.html",
+				"includes/list-board.jsp"));
+	}
+		
+	@Override
+	public void save(Model model) {
+		Map<String,Object> map= model.asMap();
 		Board board=(Board)map.get("board");
+		//System.out.println(board.getTitle());
+		//System.out.println(board.getName());
+		//System.out.println(board.getContent());
+		//System.out.println(board.getCompName());
 		boardRepository.save(board);
 	}
 }

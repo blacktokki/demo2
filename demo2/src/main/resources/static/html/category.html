@@ -1,89 +1,43 @@
-
-
-<link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
-<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
-
-<title>main</title>
-
-
-
- <head>
-     
-
 <link rel="stylesheet" type="text/css" href="/css/jquery.auto-complete.css" />
 <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
 <script type="text/javascript" src="/js/jquery.auto-complete.js"></script>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        
-         <style>
-            html {
-                width: 100%;
-                height: 100%;
-            }
-            .container {
-                width: 70%;
-                height: 70%;
-                margin: 40px auto;
-                background: white;
-            }
-            .outer {
-                display: table;
-                width: 100%;
-                height: 100%;
-            }
-            .inner {
-                display: table-cell;
-                vertical-align: middle;
-                text-align: center;
-            }
-            .centered {
-                position: relative;
-                display: inline-block;
-                width: 50%;
-                padding: 1em;
-                background: white;
-                color: white;
-            }
-      
-        </style>
-        
-    </head>
-    	
-    <body>
- <form action="board.jsp" method="get">
-
-      <div class="container">
-            <div class="outer">
-                <div class="inner">
-                    <div class="centered">
-    
-                         <div>       
-				 <input type="text" class="form-control search-slt" id="keywords" placeholder="program name" >
-                         
-           </div>
-                      <div class="alert alert-success">
-                 <input type="submit"  value="검색"/>
-             
-		   </div>   
+<form action="/job/result" method="get">
+	<input type="text" class="form-control search-slt" id="keywords" placeholder="program name" >
+    <div class="alert alert-success">
+    	<input type="submit"  value="검색"/>
+    </div>
+    <div style="
+			BORDER-RIGHT:#ff0000 1px solid;
+			BORDER-TOP:#ff0000 1px solid;
+			BORDER-LEFT:#ff0000 1px solid;
+			BORDER-BOTTOM:#ff0000 1px solid;
+			background: white;
+     		color: black;
+			">
+		<div id="tags">
+		</div>
+		<input type="hidden" id="tags-inp" name="keywords" value=""/>
+	</div>   
 </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-        </form>
-       
-        
-        <div style="BORDER-RIGHT:#ff0000 1px solid;BORDER-TOP:#ff0000 1px solid;BORDER-LEFT:#ff0000 1px solid;BORDER-BOTTOM:#ff0000 1px solid">
-<div id="tags"></div>      
-        </div>
-        
-       <script>
-    
-
-       
+<script>
 	$(function(){
+		
+		
+		$("#keywords").keydown(function() {
+		    if (event.keyCode === 13) {
+		        event.preventDefault();
+		    }
+		});
+		function parseKeyword(){
+			var str="";
+			$("#tags > .tag-skill").each(function(index, item){ 
+				if(index!=0)
+					str+="%20";
+				str+=$(item).text();
+			});
+			$("#tags-inp").val(str);
+			console.log(str);
+		};
          $('#keywords').autoComplete({
              minChars: 1,
              source: function(term, suggest){
@@ -102,25 +56,17 @@
             	 console.log("Selected:" + term);
             	 var str=$('#tags').html();
             	 console.log("str: "+str);
-            	 str+="<div id='tag'>"+term+"</div>";
+            	 str+="<div class='tag-skill'>"+term+"</div>";
             	 $('#tags').html(str);
-            	  	             	 
-            	 
             	 $('#keywords').val("");
-            	 
-            	 
+            	 parseKeyword();
              }
          });
-         $("#tags").delegate("#tag","click",function(){
+         $("#tags").delegate(".tag-skill","click",function(){
         	 console.log($(this).html());
         	 $(this).remove();
+        	 parseKeyword()
          });
 	});
+</script>        
 
-	
-	
-	</script>        
-
-
-</body>
-</html>

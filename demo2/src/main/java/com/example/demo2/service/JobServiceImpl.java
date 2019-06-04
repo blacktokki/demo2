@@ -46,17 +46,26 @@ public class JobServiceImpl implements JobService,AutoCompleteService,UtilServic
 		Map<String,String> mapStr=new HashMap<>();
 		requestMapper(request,mapStr,"keywords","java");//검색어
 		requestMapper(request,mapStr,"category","4");//직무
-		requestMapper(request,mapStr,"start","0");//시작번호
-		requestMapper(request,mapStr,"count","10");//개수
+		requestMapper(request,mapStr,"start","1");//시작번호
+		mapStr.put("count", "20");
+		//requestMapper(request,mapStr,"count","20");//개수
 		requestMapper(request,mapStr,"career","신입");//경력
 		mapStr.put("sr","directhire");
-		Map<?,?> result;
+		Map<?,?> result=null;
 		try {
 			result=saramInCrawler.getPage(mapStr);
-			System.out.println(result.toString());
 			model.addAttribute("result",result);			
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		model.addAttribute("struct",getDocumentStruct(
+				"채용정보",
+				"/html/category.html",
+				"includes/list-job.jsp"));
+		model.addAttribute("paging",getDocumentPaging(
+				request,
+				"start",
+				Integer.parseInt((String)result.get("cnt"))/20));
+		model.addAttribute("keywords",mapStr.get("keywords").replace("%20",","));
 	}
 }
