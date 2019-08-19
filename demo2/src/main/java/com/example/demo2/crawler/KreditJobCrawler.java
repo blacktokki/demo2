@@ -36,13 +36,14 @@ public class KreditJobCrawler implements Crawler{
 	@Override
 	public Map<?,?> getPage(Map<?,?> map) throws Exception{
 		String url="https://kreditjob.com/api/company/companyPage";
-		Document doc = Jsoup.connect(url).data(mapStr(map)).ignoreContentType(true).post();
+		Map<String,String>mapstr=mapStr(map);
+		Document doc = Jsoup.connect(url).data(mapstr).ignoreContentType(true).post();
 		Elements body=doc.select("body");
 		Map<?,?> obj=(Map<?, ?>)stringParse(body.text());
 		Map<String,String> result=mapStr((Map<?, ?>)obj.get("companyInfoData"));
-		System.out.println(result.toString());
+		//System.out.println(result.toString());
 		result.put("CompName", (String) map.get(getCompName()));
-		result.put("url", url);
+		result.put("url", "https://kreditjob.com/company/"+mapstr.get("PK_NM_HASH"));
 		return result;
 	}
 }
